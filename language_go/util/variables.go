@@ -2,7 +2,7 @@ package util
 
 import "fmt"
 
-func printVar() {
+func PrintVar() {
 	// For variable declaration, you can use the var keyword followed by the variable name and type.
 	var name string
 	name = "Alice"
