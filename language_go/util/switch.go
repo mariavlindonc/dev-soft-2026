@@ -2,7 +2,7 @@ package util
 
 import "fmt"
 
-func PrintSwitchExample() {
+func PrintSwitch() {
 	day := "Monday"
 
 	switch day {

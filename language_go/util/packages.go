@@ -1,8 +1,15 @@
 package util
 
-import "fmt"
+// Importing multiple packages in Go is done using the import statement.
+// You can import standard library packages, third-party packages, or your own packages.
+import (
+	"fmt"
+	//"math"
+	//"time"
+	//etc
+)
 
-func PrintPackagesInfo() {
+func PrintPackages() {
 	fmt.Println("fmt package is used for formatted I/O operations.")
 	fmt.Println("math package provides basic constants and mathematical functions.")
 	fmt.Println("time package provides functionality for measuring and displaying time.")

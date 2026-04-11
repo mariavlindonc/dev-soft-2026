@@ -2,8 +2,7 @@ package main
 
 import (
 	"fmt"
-	"language_go/exercise1"
-	"language_go/exercise4"
+	"language_go/exercises"
 )
 
 func main() {
@@ -20,7 +19,7 @@ func main() {
 	switch option {
 	case 1:
 		fmt.Println("Starting Exercise 1...")
-		exercise1.AreaAndPerimeter()
+		exercises.AreaAndPerimeter()
 	case 2:
 		fmt.Println("Starting Exercise 2...")
 		// exercise2()
@@ -29,7 +28,10 @@ func main() {
 		// exercise3()
 	case 4:
 		fmt.Println("Starting Exercise 4...")
-		exercise4.DisplayMenu()
+		exercises.DisplayMenu()
+	case 5:
+		fmt.Println("Starting Exercise 5...")
+		exercises.ManageTasks()
 	case 0:
 		fmt.Println("Exiting the program.")
 	default:
