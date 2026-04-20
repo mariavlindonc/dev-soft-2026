@@ -1,9 +1,13 @@
-package exercises
+package main
 
 import (
 	"fmt"
 	"math/rand"
 )
+
+func main() {
+	DisplayMenu()
+}
 
 func play() {
 	var randomNumber int = rand.Intn(101)
