@@ -2,7 +2,7 @@ package util
 
 import "fmt" // fmt is used for printing and scanning input
 
-func readAndPrint() {
+func ReadAndPrint() {
 	// declare variables
 	var name string
 	var price float64

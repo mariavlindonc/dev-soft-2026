@@ -1,11 +1,11 @@
-package ejercicio_1
+package main
 
 import (
 	"fmt"
 	"math"
 )
 
-func areaAndPerimeter() {
+func main() {
 	// declare variables
 	var side1, side2, hypotenuse, area, perimeter float64
 

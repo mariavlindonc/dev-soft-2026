@@ -2,7 +2,7 @@ package util
 
 import "fmt"
 
-func printDataTypes() {
+func PrintDataTypes() {
 	var age int = 30                 // Integer data type
 	var visits int64 = 10000000000   // 64-bit integer data type
 	var temperature32 float32 = 36.5 // 32-bit floating-point data type
