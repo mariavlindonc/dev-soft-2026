@@ -19,12 +19,13 @@ func GetAll(c *gin.Context) {
 
 func GetAlbumByID(c *gin.Context) {
 	id := c.Param("id") // This line retrieves the value of the "id" parameter from the URL path and stores it in the variable id.
-	var album []dtos.Album
+	var album dtos.Album
 
 	result := db.DB.First(&album, "id = ?", id)
 
 	if result.Error != nil {
-		c.IndentedJSON(http.StatusNotFound, "album not found")
+		c.IndentedJSON(http.StatusNotFound, gin.H{"error": "album not found"})
+		return
 	}
 
 	c.JSON(http.StatusOK, album)
@@ -40,36 +41,48 @@ func PostAlbum(c *gin.Context) {
 		return
 	}
 
-	db.DB.Create(newAlbum)
+	db.DB.Create(&newAlbum)
 	c.IndentedJSON(http.StatusCreated, newAlbum)
 }
 
-// func editAlbumByID(c *gin.Context) {
-// 	id := c.Param("id") // This line retrieves the value of the "id" parameter from the URL path and stores it in the variable id.
-// 	var updatedAlbum album
-// 	err := c.BindJSON(&updatedAlbum)
-// 	if err != nil {
-// 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()}) // If there is an error during JSON binding, this line sends a JSON response with an error message and an HTTP status code of 400 (Bad Request).
-// 		return
-// 	}
-// 	for index := range albums {
-// 		if albums[index].ID == id {
-// 			albums[index] = updatedAlbum
-// 			c.IndentedJSON(http.StatusOK, updatedAlbum)
-// 			return
-// 		}
-// 	}
-// 	c.IndentedJSON(http.StatusNotFound, gin.H{"error": "album not found"}) // If no matching album is found after iterating through the list, this line sends a JSON response with an error message and an HTTP status code of 404 (Not Found).
-// }
+func EditAlbumByID(c *gin.Context) {
+	id := c.Param("id")
 
-// func deleteAlbumByID(c *gin.Context) {
-// 	id := c.Param("id") // This line retrieves the value of the "id" parameter from the URL path and stores it in the variable id.
-// 	for index := range albums {
-// 		if albums[index].ID == id {
-// 			albums = append(albums[:index], albums[index+1:]...)
-// 			c.IndentedJSON(http.StatusOK, "album deleted.")
-// 			return
-// 		}
-// 	}
-// 	c.IndentedJSON(http.StatusNotFound, gin.H{"error": "album not found"}) // If no matching album is found after iterating through the list, this line sends a JSON response with an error message and an HTTP status code of 404 (Not Found).
-// }
+	var album dtos.Album
+	if err := db.DB.First(&album, "id = ?", id).Error; err != nil {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"error": "album not found"})
+		return
+	}
+
+	var updatedAlbum dtos.Album
+	if err := c.BindJSON(&updatedAlbum); err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := db.DB.Model(&album).Updates(updatedAlbum).Error; err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, album)
+}
+
+func DeleteAlbumByID(c *gin.Context) {
+	id := c.Param("id")
+
+	var album dtos.Album
+
+	result := db.DB.Delete(&album, "id = ?", id)
+	if result.Error != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
+	}
+
+	if result.RowsAffected == 0 {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"error": "album not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"success": "album deleted"})
+}

@@ -2,6 +2,7 @@ package db
 
 import (
 	"log"
+	"os"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -13,14 +14,11 @@ func StartDB() {
 	// refer https://github.com/go-sql-driver/mysql#dsn-data-source-name for details
 	var err error
 
-	// dsn := "user:#MySQLpassword512@tcp(localhost:3306)/db_vinilos?charset=utf8mb4&parseTime=True&loc=Local"
-	// This last command can be parametrized
-
-	user := "root"
-	pass := "#MySQLpassword512"
-	host := "localhost"
-	port := "3306"
-	name := "db_vinilos"
+	user := os.Getenv("DB_USER")
+	pass := os.Getenv("DB_PASS")
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	name := os.Getenv("DB_NAME")
 
 	dsn := user + ":" + pass + "@tcp(" + host + ":" + port + ")/" + name + "?charset=utf8mb4&parseTime=True&loc=Local"
 
